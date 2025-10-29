@@ -1,15 +1,17 @@
-import App from '../App.tsx'
 import { BrowserRouter, Routes, Route } from 'react-router'
 import CentralizedLayout from '../layouts/CentralizedLayout.tsx'
+import HomePage from '../pages/HomePage.tsx'
+import RedirectPage from '../pages/RedirectPage.tsx'
+import NotFoundPage from '../pages/NotFoundPage.tsx'
 
 export default function Router(){
     return(
         <BrowserRouter>
         <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<HomePage />} />
           <Route element={<CentralizedLayout />} >
-            <Route path="/redirect" element={<App />} />
-            <Route path="/not-found" element={<App />} />
+            <Route path="/redirect" element={<RedirectPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
