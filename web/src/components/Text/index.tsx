@@ -17,7 +17,7 @@ const textVariants = cva('', {
         },
         type: {
             text: 'text-[#4D505C]',
-            link: 'text-[#2C46B1] underline'
+            link: 'text-[#2C46B1] underline inline ml-1'
         }
     },
     defaultVariants: {
@@ -30,10 +30,12 @@ const textVariants = cva('', {
 
 interface TextProps extends VariantProps<typeof textVariants> {
     text: string
+    className?: string
+    children?: React.ReactNode
 }
 
-export default function Text({ text, size, align, weight, type }: TextProps) {
+export default function Text({ text, size, align, weight, type, className, children }: TextProps) {
     return(
-        <p className={textVariants({ size, align, weight, type })}>{text}</p>
+        <p className={textVariants({ size, align, weight, type, className })}>{text}{children}</p>
     )
 }

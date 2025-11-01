@@ -1,10 +1,7 @@
-import Card from "../components/Card";
+import CentralizedPageContent from "@/components/CentralizedPageContent";
 
 export default function NotFoundPage(){
     return(
-       <Card>
-        <h1>404 - Not Found</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias perspiciatis asperiores explicabo quas, ea dolor, ex modi harum provident eveniet minima temporibus praesentium corrupti alias culpa enim saepe necessitatibus? Laudantium?</p>
-       </Card> 
+        <CentralizedPageContent img="notFoundImg" headline="Link não encontrado" text="O link que você está tentando acessar não existe, foi removido ou é uma URL inválida. Saiba mais em" linkText="brev.ly." linkHref="/" />
     )
 }
