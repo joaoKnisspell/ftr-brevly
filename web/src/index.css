@@ -4,11 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+
+  --color-background: var(--background);
+  --color-gray-600: var(--gray-600);
+  --color-gray-500: var(--gray-500);
+  --color-gray-400: var(--gray-400);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -42,8 +47,13 @@
 }
 
 :root {
+
+  --background: #E4E6EC;
+  --gray-600: #1F2025;
+  --gray-500: #4D505C;
+  --gray-400: #74798B;
+
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);

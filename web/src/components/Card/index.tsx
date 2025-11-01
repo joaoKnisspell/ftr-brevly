@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority"
 
-const cardVariants = cva('rounded-lg bg-white max-w-[580px] w-full flex flex-col items-center gap-5', {
+const cardVariants = cva('rounded-lg bg-white flex flex-col items-center gap-5 min-h-[214px] lg:min-h-[234px]', {
     variants: {
         size: {
             'md': 'p-6 md:p-8',
@@ -13,12 +13,13 @@ const cardVariants = cva('rounded-lg bg-white max-w-[580px] w-full flex flex-col
 })
 
 interface CardProps extends VariantProps<typeof cardVariants> {
-    children: React.ReactNode
+    children: React.ReactNode;
+    className?: string
 }
 
-export default function Card({ children, size }: CardProps) {
+export default function Card({ children, size, className }: CardProps) {
     return(
-        <div className={cardVariants({ size })}>
+        <div className={cardVariants({ size, className })}>
             {children}
         </div>
     )
