@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority"
 
-const cardVariants = cva('rounded-lg bg-white flex flex-col items-center gap-5 min-h-[214px] lg:min-h-[234px]', {
+const cardVariants = cva('h-full rounded-lg bg-white flex flex-col items-center gap-5 min-h-[214px] lg:min-h-[234px]', {
     variants: {
         size: {
             'md': 'p-6 md:p-8',

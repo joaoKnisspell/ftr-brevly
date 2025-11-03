@@ -9,6 +9,9 @@
   --color-gray-600: var(--gray-600);
   --color-gray-500: var(--gray-500);
   --color-gray-400: var(--gray-400);
+  --color-gray-200: var(--gray-200);
+  --color-blue-base: var(--blue-base);
+  --color-blue-dark: var(--blue-dark);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -52,6 +55,9 @@
   --gray-600: #1F2025;
   --gray-500: #4D505C;
   --gray-400: #74798B;
+  --gray-200: #E4E6EC;
+  --blue-base: #2C46B1;
+  --blue-dark: #2C4091; 
 
   --radius: 0.625rem;
   --foreground: oklch(0.141 0.005 285.823);
