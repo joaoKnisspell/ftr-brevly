@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import DownloadIcon from '@/assets/DownloadSimple.svg'
 import { Label } from '@/components/ui/label'
 import LinkIcon from '@/assets/Link.svg'
+import LinkItem from '@/components/LinkItem'
 
 export default function HomePage(){
     return(
@@ -24,13 +25,18 @@ export default function HomePage(){
                     </div>
                     <Button>Salvar Link</Button>
                 </Card>
-                <Card className='flex-1'>
+                <Card className='w-full lg:flex-1'>
                     <CardHeader headlineText='Meus links' >
                         <Button variant={'secondary'} size={'sm'}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
                     </CardHeader>
                     <div className='pt-4 flex flex-col gap-3 items-center'>
                         <img className='size-8' src={LinkIcon} />
                         <Label>Ainda não existem links cadastrados</Label>
+                    </div>
+                    <div className='w-full flex flex-col gap-3'>
+                        <LinkItem />
+                        <LinkItem />
+                        <LinkItem />
                     </div>
                 </Card>
             </section>
