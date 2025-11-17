@@ -9,8 +9,14 @@ import DownloadIcon from '@/assets/DownloadSimple.svg'
 import { Label } from '@/components/ui/label'
 import LinkIcon from '@/assets/Link.svg'
 import LinkItem from '@/components/LinkItem'
+import useHome from '@/hooks/useHome'
 
 export default function HomePage(){
+
+    const { data, isFetching } = useHome()
+
+    console.log(data)
+
     return(
        <div className="mx-auto max-w-[980px] w-full flex flex-col items-center gap-6 pt-8 px-4 lg:items-start lg:px-0 lg:gap-8 lg:pt-[88px]">
         <header>

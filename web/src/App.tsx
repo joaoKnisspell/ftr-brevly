@@ -1,12 +1,14 @@
-import Headline from "./components/Headline"
+import Router from "./router"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 function App() {
 
   return (
-    <>
-      <Headline text="Hello World" />
-      <Headline text="Hello World" size={"xl"} />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Router />
+    </QueryClientProvider>
   )
 }
 
