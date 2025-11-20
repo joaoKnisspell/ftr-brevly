@@ -11,10 +11,18 @@ import LinkIcon from '@/assets/Link.svg'
 import LinkItem from '@/components/LinkItem'
 import useHome from '@/hooks/useHome'
 import type { linkType } from '@/types/link.type'
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form"
 
 export default function HomePage(){
 
-    const { data, isFetching } = useHome()
+    const { data, isFetching, form, handleSubmit } = useHome()
 
 
     return(
@@ -25,11 +33,39 @@ export default function HomePage(){
         <section className='w-full flex gap-3 flex-wrap lg:gap-4'>
                 <Card className='lg:max-w-[380px] w-full'>
                     <Headline text='Novo Link' />
-                    <div className='flex flex-col gap-4 w-full'>
-                        <Input labelText='link original' placeholder='www.exemplo.com.br' />
-                        <Input prefixInput labelText='link encurtado' placeholder='brev.ly/' />
-                    </div>
-                    <Button disabled={isFetching}>Salvar Link</Button>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(handleSubmit)} className='w-full space-y-5'>
+                            <div className='flex flex-col gap-4 w-full'>
+                                <FormField
+                                    control={form.control}
+                                    name="url"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Link Original</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="https://.exemplo.com.br" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="slug"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Link Encurtado</FormLabel>
+                                            <FormControl>
+                                                <Input prefixInput placeholder="brev.ly/" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <Button disabled={isFetching}>Salvar Link</Button>
+                        </form>
+                    </Form>
                 </Card>
                 <Card className='w-full lg:flex-1'>
                     <CardHeader headlineText='Meus links' >
