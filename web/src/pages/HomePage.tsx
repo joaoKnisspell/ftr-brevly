@@ -10,12 +10,12 @@ import { Label } from '@/components/ui/label'
 import LinkIcon from '@/assets/Link.svg'
 import LinkItem from '@/components/LinkItem'
 import useHome from '@/hooks/useHome'
+import type { linkType } from '@/types/link.type'
 
 export default function HomePage(){
 
     const { data, isFetching } = useHome()
 
-    console.log(data)
 
     return(
        <div className="mx-auto max-w-[980px] w-full flex flex-col items-center gap-6 pt-8 px-4 lg:items-start lg:px-0 lg:gap-8 lg:pt-[88px]">
@@ -27,22 +27,27 @@ export default function HomePage(){
                     <Headline text='Novo Link' />
                     <div className='flex flex-col gap-4 w-full'>
                         <Input labelText='link original' placeholder='www.exemplo.com.br' />
-                        <Input labelText='link encurtado' placeholder='brev.ly/' />
+                        <Input prefixInput labelText='link encurtado' placeholder='brev.ly/' />
                     </div>
-                    <Button>Salvar Link</Button>
+                    <Button disabled={isFetching}>Salvar Link</Button>
                 </Card>
                 <Card className='w-full lg:flex-1'>
                     <CardHeader headlineText='Meus links' >
-                        <Button variant={'secondary'} size={'sm'}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
+                        <Button variant={'secondary'} size={'sm'} disabled={isFetching}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
                     </CardHeader>
-                    <div className='pt-4 flex flex-col gap-3 items-center'>
-                        <img className='size-8' src={LinkIcon} />
-                        <Label>Ainda não existem links cadastrados</Label>
-                    </div>
+                    {
+                        data?.length === 0 &&
+                            <div className='pt-4 flex flex-col gap-3 items-center'>
+                                <img className='size-8' src={LinkIcon} />
+                                <Label>Ainda não existem links cadastrados</Label>
+                            </div>
+                    }
                     <div className='w-full flex flex-col gap-3'>
-                        <LinkItem />
-                        <LinkItem />
-                        <LinkItem />
+                        {
+                            data?.map((link: linkType) => (
+                                <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url}  />
+                            ))
+                        }
                     </div>
                 </Card>
             </section>

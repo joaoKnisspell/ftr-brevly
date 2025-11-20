@@ -13,6 +13,7 @@ const linkResponseSchema = z.object({
     id: z.string(),
     url: z.string(),
     slug: z.string(),
+    accesses: z.number(),
 })
 
 const errorSchema = z.object({
