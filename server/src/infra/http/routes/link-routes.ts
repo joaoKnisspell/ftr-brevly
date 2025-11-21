@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 
 const createLinkSchema = z.object({
     url: z.url("URL inválida."),
-    slug: z.string().min(4).max(6),
+    slug: z.string(),
 })
   
 const linkResponseSchema = z.object({
@@ -52,7 +52,7 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
         })
 
         if(isLinkExists){
-            return reply.status(409).send({ error: `Link encurtado já existente. (${slug})` })
+            return reply.status(409).send({ error: `Link encurtado já existente.` })
         }
 
         const [created] = await db.insert(schema.links).values({

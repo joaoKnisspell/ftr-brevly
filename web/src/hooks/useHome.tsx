@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import api from "@/services/api"
 import { endpoints } from "@/services/endpoints"
 import z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "react-toastify"
+import type { AxiosError } from "axios"
 
 const newLinkSchema = z.object({
     url: z.url("Informe uma url válida."),
@@ -13,6 +15,8 @@ const newLinkSchema = z.object({
 
 
 export default function useHome(){
+
+    const queryClient = useQueryClient()
 
     const { data, isFetching } = useQuery({
         queryKey: ["links-list"],
@@ -24,19 +28,45 @@ export default function useHome(){
         enabled: true
     })
 
+    const { mutate: createLink, isPending: isCreateLinkPending } = useMutation({
+        mutationKey: ["create-link"],
+        mutationFn: async (payload: z.infer<typeof newLinkSchema>) => {
+            const res = await api.post(endpoints.links.post, payload)
+            return res.data
+        },
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey:["links-list"]})
+            form.reset()
+            toast.success("Link criado com sucesso!")
+        },
+
+        onError: (error: AxiosError<any>) => {
+            const message =
+            error?.response?.data?.error ||
+            "Erro inesperado."
+            toast.error(message)
+            form.resetField("slug")
+        }
+    })
+
     const form = useForm<z.infer<typeof newLinkSchema>>({
         resolver: zodResolver(newLinkSchema)
     })
 
 
-    function handleSubmit(values: z.infer<typeof newLinkSchema>){
-        console.log(values)
+    function handleSubmit({ slug, url }: z.infer<typeof newLinkSchema>){
+        createLink({
+            slug,
+            url
+        })
     }
 
     return {
         data,
         isFetching,
         form,
+        isCreateLinkPending,
         handleSubmit
     }
 }

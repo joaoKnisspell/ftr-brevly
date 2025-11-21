@@ -22,7 +22,7 @@ import {
 
 export default function HomePage(){
 
-    const { data, isFetching, form, handleSubmit } = useHome()
+    const { data, isFetching, form, isCreateLinkPending, handleSubmit } = useHome()
 
 
     return(
@@ -56,14 +56,14 @@ export default function HomePage(){
                                         <FormItem>
                                             <FormLabel>Link Encurtado</FormLabel>
                                             <FormControl>
-                                                <Input prefixInput placeholder="brev.ly/" {...field} />
+                                                <Input prefixInput placeholder="" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
                             </div>
-                            <Button disabled={isFetching}>Salvar Link</Button>
+                            <Button disabled={isFetching || isCreateLinkPending}>Salvar Link</Button>
                         </form>
                     </Form>
                 </Card>
