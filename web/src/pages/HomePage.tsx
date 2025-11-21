@@ -19,10 +19,11 @@ import {
     FormLabel,
     FormMessage,
   } from "@/components/ui/form"
+  import { Loader } from "lucide-react"
 
 export default function HomePage(){
 
-    const { data, isFetching, form, isCreateLinkPending, isDeleteLinkPending, handleSubmit, handleDeleteLink } = useHome()
+    const { data, isFetching, form, isCreateLinkPending, isDeleteLinkPending, handleSubmit, handleDeleteLink, handleCopyLink } = useHome()
 
 
     return(
@@ -71,17 +72,17 @@ export default function HomePage(){
                     <CardHeader headlineText='Meus links' >
                         <Button variant={'secondary'} size={'sm'} disabled={isFetching || isCreateLinkPending || isDeleteLinkPending}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
                     </CardHeader>
-                    {
-                        data?.length === 0 &&
+                    {  
+                        data?.length === 0 || isFetching &&
                             <div className='pt-4 flex flex-col gap-3 items-center'>
-                                <img className='size-8' src={LinkIcon} />
-                                <Label>Ainda não existem links cadastrados</Label>
+                                {isFetching ? <Loader className='animate-spin size-6 text-gray-400' /> : <img className='size-8' src={LinkIcon} />}
+                                <Label>{isFetching ? "CARREGANDO LINKS" : "AINDA NÃO EXISTEM LINKS CADASTRADOS"}</Label>
                             </div>
                     }
                     <div className='w-full flex flex-col gap-3'>
                         {
-                            data?.map((link: linkType) => (
-                                <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url} onDeleteLink={handleDeleteLink} />
+                            !isFetching && data?.map((link: linkType) => (
+                                <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url} onDeleteLink={handleDeleteLink} onCopyLink={handleCopyLink} />
                             ))
                         }
                     </div>
