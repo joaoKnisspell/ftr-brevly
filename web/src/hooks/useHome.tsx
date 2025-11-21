@@ -50,6 +50,24 @@ export default function useHome(){
         }
     })
 
+    const { mutate: deleteLink, isPending: isDeleteLinkPending } = useMutation({
+        mutationKey: ["delete-link"],
+        mutationFn: async (id: string) => {
+            const res = await api.delete(endpoints.links.delete(id))
+            return res.data
+        },
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["links-list"] })
+            toast.success("Link excluído com sucesso.")
+        },
+
+        onError: (error: AxiosError<any>) => {
+            toast.error("Erro ao deletar link.")
+            console.error(error)
+        }
+    })
+
     const form = useForm<z.infer<typeof newLinkSchema>>({
         resolver: zodResolver(newLinkSchema)
     })
@@ -62,11 +80,17 @@ export default function useHome(){
         })
     }
 
+    function handleDeleteLink(id: string){
+        deleteLink(id)
+    }
+
     return {
         data,
         isFetching,
         form,
         isCreateLinkPending,
-        handleSubmit
+        isDeleteLinkPending,
+        handleSubmit,
+        handleDeleteLink
     }
 }

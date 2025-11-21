@@ -22,7 +22,7 @@ import {
 
 export default function HomePage(){
 
-    const { data, isFetching, form, isCreateLinkPending, handleSubmit } = useHome()
+    const { data, isFetching, form, isCreateLinkPending, isDeleteLinkPending, handleSubmit, handleDeleteLink } = useHome()
 
 
     return(
@@ -63,13 +63,13 @@ export default function HomePage(){
                                     )}
                                 />
                             </div>
-                            <Button disabled={isFetching || isCreateLinkPending}>Salvar Link</Button>
+                            <Button disabled={isFetching || isCreateLinkPending || isDeleteLinkPending}>Salvar Link</Button>
                         </form>
                     </Form>
                 </Card>
                 <Card className='w-full lg:flex-1'>
                     <CardHeader headlineText='Meus links' >
-                        <Button variant={'secondary'} size={'sm'} disabled={isFetching}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
+                        <Button variant={'secondary'} size={'sm'} disabled={isFetching || isCreateLinkPending || isDeleteLinkPending}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
                     </CardHeader>
                     {
                         data?.length === 0 &&
@@ -81,7 +81,7 @@ export default function HomePage(){
                     <div className='w-full flex flex-col gap-3'>
                         {
                             data?.map((link: linkType) => (
-                                <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url}  />
+                                <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url} onDeleteLink={handleDeleteLink} />
                             ))
                         }
                     </div>
