@@ -84,9 +84,9 @@ export default function useHome(){
         deleteLink(id)
     }
 
-    async function handleCopyLink(url: string){
+    async function handleCopyLink(url: string, slug: string){
         await navigator.clipboard.writeText(url).then(() => {
-            toast.info("Link copiado com sucesso!")
+            toast.info(`O link ${slug} foi copiado para a área de transferência.`)
         })
     }
 

@@ -10,8 +10,8 @@ export default function Router(){
         <Routes>
         <Route path="/" element={<HomePage />} />
           <Route element={<CentralizedLayout />} >
-            <Route path="/redirect" element={<RedirectPage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<RedirectPage />} />
+            <Route path="/url/not-found" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -31,7 +31,7 @@ export default function HomePage(){
         <header>
             <img className='w-24' src={Logo} />
         </header>
-        <section className='w-full flex gap-3 flex-wrap lg:gap-4'>
+        <section className='w-full flex gap-3 flex-wrap items-start lg:gap-4'>
                 <Card className='lg:max-w-[380px] w-full'>
                     <Headline text='Novo Link' />
                     <Form {...form}>
@@ -73,7 +73,7 @@ export default function HomePage(){
                         <Button variant={'secondary'} size={'sm'} disabled={isFetching || isCreateLinkPending || isDeleteLinkPending}><img className='size-4' src={DownloadIcon} />Baixar CSV</Button>
                     </CardHeader>
                     {  
-                        data?.length === 0 || isFetching &&
+                        data?.length === 0 &&
                             <div className='pt-4 flex flex-col gap-3 items-center'>
                                 {isFetching ? <Loader className='animate-spin size-6 text-gray-400' /> : <img className='size-8' src={LinkIcon} />}
                                 <Label>{isFetching ? "CARREGANDO LINKS" : "AINDA NÃO EXISTEM LINKS CADASTRADOS"}</Label>
