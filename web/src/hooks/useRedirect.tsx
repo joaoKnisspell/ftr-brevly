@@ -1,20 +1,34 @@
 import api from "@/services/api"
 import { endpoints } from "@/services/endpoints"
 import { useQuery } from "@tanstack/react-query"
-import { useLocation } from "react-router"
+import { useEffect } from "react"
+import { useLocation, useNavigate } from "react-router"
 
 export default function useRedirect(){
 
     const { pathname } = useLocation()
     const slug = pathname.slice(1)
 
-    const { data, isFetching } = useQuery({
+    const navigate = useNavigate()
+
+    const { data, error, isFetching } = useQuery({
         queryKey: ["redirect", slug],
         queryFn: async () => {
-            const data = await api.get(endpoints.links.getBySlug(slug))
-            console.log(data)
+            const { data } = await api.get(endpoints.links.getBySlug(slug))
+            
+            return data
         },
+        retry: false
     })
+
+    useEffect(() => {
+        if(!data && !error) return;
+
+        if(data?.url) return window.location.href = data.url
+
+        return navigate("/url/not-found")
+
+    }, [data, error, navigate])
 
 
     return {
