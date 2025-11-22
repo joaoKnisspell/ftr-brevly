@@ -77,6 +77,32 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
         return reply.status(200).send(links)
     })
 
+    server.get<{ Params: { slug: string } }>("/links/:slug", {
+        schema: {
+            summary: "Busca um link pelo slug",
+            response: {
+                200: linkResponseSchema,
+                404: errorSchema
+            },
+        }
+    }, async (request, reply) => {
+        const { slug } = request.params
+        const link = await db.query.links.findFirst({
+            where: eq(schema.links.slug, slug)
+        })
+
+        if(link){
+            const [updatedLink] = await db.update(schema.links).set({
+                accesses: link.accesses + 1
+            }).returning()
+
+            return reply.status(200).send(updatedLink)
+        }
+
+        return reply.status(404).send({ error: "Link não encontrado." })
+
+    })
+
     server.delete("/links/:id", {
         schema: {
             summary: "Deleta um link",
