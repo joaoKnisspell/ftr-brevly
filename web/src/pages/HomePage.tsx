@@ -88,8 +88,7 @@ export default function HomePage(){
                         }
                     </div>
                 </Card>
-            </section>
-
+        </section>
        </div> 
     )
 }
