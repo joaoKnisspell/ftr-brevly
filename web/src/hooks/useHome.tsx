@@ -37,7 +37,7 @@ export default function useHome(){
 
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey:["links-list"]})
-            form.reset()
+            form.reset({ url: "", slug: "" })
             toast.success("Link criado com sucesso!")
         },
 

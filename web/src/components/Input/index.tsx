@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               "focus-within:ring-[0.5px]! focus-within:ring-blue-base focus-within:border-blue-base",
             prefixInput &&
               hasError &&
-              "focus-within:border-red-500 ring-destructive/20 border-destructive"
+              "focus-within:border-red-500 ring-destructive/20 border-destructive",
           )}
         >
           {prefixInput && (
@@ -44,7 +44,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               prefixInput && "border-0 px-0 shadow-none focus-visible:ring-0",
               !prefixInput && "w-full",
               
-              !prefixInput && !hasError && 'focus-within:ring-[0.5px]!  focus-within:ring-blue-base! focus-within:border-blue-base!',
+              !prefixInput && !hasError && 'focus-within:ring-[0.5px]! focus-within:ring-blue-base! focus-within:border-blue-base!',
+              hasError &&
+              "focus-within:border-red-500 ring-destructive/20 border-destructive",
               className
             )}
           />

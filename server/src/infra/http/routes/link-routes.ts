@@ -91,10 +91,12 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
             where: eq(schema.links.slug, slug)
         })
 
+
         if(link){
             const [updatedLink] = await db.update(schema.links).set({
                 accesses: link.accesses + 1
-            }).returning()
+            }).where(eq(schema.links.slug, slug)).returning()
+
 
             return reply.status(200).send(updatedLink)
         }

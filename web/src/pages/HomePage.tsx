@@ -27,11 +27,11 @@ export default function HomePage(){
 
 
     return(
-       <div className="mx-auto max-w-[980px] w-full flex flex-col items-center gap-6 pt-8 px-4 lg:items-start lg:px-0 lg:gap-8 lg:pt-[88px]">
+       <div className="h-screen overflow-hidden mx-auto max-w-[980px] w-full flex flex-col items-center gap-6 py-8 px-4 lg:items-start lg:px-0 lg:gap-8 lg:pt-[88px]">
         <header>
             <img className='w-24' src={Logo} />
         </header>
-        <section className='w-full flex gap-3 flex-wrap items-start lg:gap-4'>
+        <section className='w-full flex gap-3 flex-wrap items-start lg:gap-4 min-h-0'>
                 <Card className='lg:max-w-[380px] w-full'>
                     <Headline text='Novo Link' />
                     <Form {...form}>
@@ -45,6 +45,7 @@ export default function HomePage(){
                                             <FormLabel>Link Original</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="https://.exemplo.com.br" {...field} />
+
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -79,7 +80,7 @@ export default function HomePage(){
                                 <Label>{isFetching ? "CARREGANDO LINKS" : "AINDA NÃO EXISTEM LINKS CADASTRADOS"}</Label>
                             </div>
                     }
-                    <div className='w-full flex flex-col gap-3'>
+                    <div className='w-full flex flex-col gap-3 overflow-y-auto'>
                         {
                             !isFetching && data?.map((link: linkType) => (
                                 <LinkItem key={link.id} id={link.id} accesses={link.accesses} slug={link.slug} url={link.url} onDeleteLink={handleDeleteLink} onCopyLink={handleCopyLink} />

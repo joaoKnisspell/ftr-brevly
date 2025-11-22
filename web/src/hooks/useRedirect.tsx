@@ -9,11 +9,14 @@ export default function useRedirect(){
     const { pathname } = useLocation()
     const slug = pathname.slice(1)
 
+    console.log(slug)
+
     const navigate = useNavigate()
 
     const { data, error, isFetching } = useQuery({
         queryKey: ["redirect", slug],
         queryFn: async () => {
+            console.log(slug, 'dentro do useQuery')
             const { data } = await api.get(endpoints.links.getBySlug(slug))
             
             return data
