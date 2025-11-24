@@ -2,7 +2,11 @@ import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../../db";
 import { schema } from "../../db/schemas";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
+import { generateCsv } from "../../../utils/exportCsv";
+import { r2 } from "../../storage/client";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { env } from "../../../env";
 
 const createLinkSchema = z.object({
     url: z.url("URL inválida."),
@@ -120,4 +124,37 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
 
         return reply.status(204).send()
     })
+
+    server.get("/links/export", async (req, reply) => {
+    
+        // 1) Buscar no DB
+        const rows = await db.select()
+          .from(schema.links)
+          .orderBy(desc(schema.links.createdAt));
+    
+        // 2) Gerar CSV
+        const buffer = generateCsv(rows);
+    
+        // 3) Enviar ao R2
+        const client = r2;
+        const bucket = env.CLOUDFLARE_BUCKET!;
+        const publicBase = env.CLOUDFLARE_PUBLIC_URL!.replace(/\/+$/, "");
+    
+        const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+        const key = `exports/links-${timestamp}.csv`;
+    
+        await client.send(
+          new PutObjectCommand({
+            Bucket: bucket,
+            Key: key,
+            Body: buffer,
+            ContentType: "text/csv; charset=utf-8"
+          })
+        );
+    
+        // 4) Retornar URL pública final: domain/key
+        const publicUrl = `${publicBase}/${encodeURIComponent(key)}`;
+    
+        return { url: publicUrl };
+      });
 }
