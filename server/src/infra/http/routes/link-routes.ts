@@ -127,15 +127,12 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
 
     server.get("/links/export", async (req, reply) => {
     
-        // 1) Buscar no DB
         const rows = await db.select()
           .from(schema.links)
           .orderBy(desc(schema.links.createdAt));
     
-        // 2) Gerar CSV
         const buffer = generateCsv(rows);
     
-        // 3) Enviar ao R2
         const client = r2;
         const bucket = env.CLOUDFLARE_BUCKET!;
         const publicBase = env.CLOUDFLARE_PUBLIC_URL!.replace(/\/+$/, "");
@@ -152,7 +149,6 @@ export const linkRoutes:FastifyPluginAsyncZod = async (server) => {
           })
         );
     
-        // 4) Retornar URL pública final: domain/key
         const publicUrl = `${publicBase}/${encodeURIComponent(key)}`;
     
         return { url: publicUrl };

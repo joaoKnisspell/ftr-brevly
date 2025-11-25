@@ -1,17 +1,20 @@
 import { stringify } from "csv-stringify/sync";
 
-export function generateCsv(rows: any[]): Buffer {
-  const header = ["id", "slug", "url", "accesses", "created_at"];
+type Row = Record<string, any>;
+type Rows = Row[];
 
-  const records = rows.map(r => [
-    r.id,
-    r.slug,
-    r.url,
-    r.accesses ?? 0,
-    r.created_at instanceof Date ? r.created_at.toISOString() : r.created_at
-  ]);
+export function generateCsv(rows: Rows) {
+  const csv = stringify(rows, {
+    header: true,
 
-  const csv = stringify([header, ...records], { quoted: true });
+    columns: {
+      id: "ID",
+      slug: "Slug",
+      url: "URL Original",
+      accesses: "Cliques",
+      created_at: "Criado Em"
+    }
+  });
 
   return Buffer.from(csv, "utf-8");
 }
