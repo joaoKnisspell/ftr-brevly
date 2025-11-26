@@ -23,9 +23,9 @@ export function generateCsv(rows: Rows) {
     delimiter: ";",
     columns: [
       { key: "id", header: "ID" },
-      { key: "slug", header: "Slug" },
+      { key: "slug", header: "URL Encurtada" },
       { key: "url", header: "URL Original" },
-      { key: "accesses", header: "Cliques" },
+      { key: "accesses", header: "Acessos" },
       { key: "createdAt", header: "Criado Em" }
     ]
   });
