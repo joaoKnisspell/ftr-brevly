@@ -18,7 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Loader } from "lucide-react"
+import LoaderSvg from '@/assets/Loader.svg'
+import {Loader} from 'lucide-react'
 
 export default function HomePage() {
   const {
@@ -27,9 +28,11 @@ export default function HomePage() {
     form,
     isCreateLinkPending,
     isDeleteLinkPending,
+    isExportLinkPending,
     handleSubmit,
     handleDeleteLink,
     handleCopyLink,
+    handleExportLinks,
   } = useHome()
 
   return (
@@ -84,9 +87,10 @@ export default function HomePage() {
             <Button
               variant={'secondary'}
               size={'sm'}
-              disabled={isFetching || isCreateLinkPending || isDeleteLinkPending}
+              disabled={isFetching || isCreateLinkPending || isDeleteLinkPending || isExportLinkPending}
+              onClick={handleExportLinks}
             >
-              <img className="size-4" src={DownloadIcon} alt="download" />
+              <img data-loading={isExportLinkPending} className="size-4 data-[loading=true]:animate-spin" src={isExportLinkPending ? LoaderSvg : DownloadIcon} alt="download" />
               Baixar CSV
             </Button>
           </CardHeader>

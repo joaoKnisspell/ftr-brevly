@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
 import type { AxiosError } from "axios"
+import { v4 as uuidv4 } from "uuid";
 
 const newLinkSchema = z.object({
     url: z.url("Informe uma url válida."),
@@ -68,6 +69,27 @@ export default function useHome(){
         }
     })
 
+    const { mutate: exportLink, isPending: isExportLinkPending } = useMutation({
+        mutationFn: async () => {
+          const { data } = await api.get(endpoints.links.export);
+          return data;
+        },
+      
+        onSuccess: (data) => {
+          if (!data?.url) return;
+      
+          const a = document.createElement("a");
+          a.href = data.url;
+          a.download = `${new Date().toISOString()}-links.csv`;
+          a.click();
+        },
+      
+        onError: (err) => {
+        toast.error("Erro ao exportar CSV.")
+          console.error(err);
+        }
+      });
+
     const form = useForm<z.infer<typeof newLinkSchema>>({
         resolver: zodResolver(newLinkSchema)
     })
@@ -90,6 +112,12 @@ export default function useHome(){
         })
     }
 
+    async function handleExportLinks(){
+        exportLink();
+    }
+
+
+
 
     return {
         data,
@@ -97,8 +125,10 @@ export default function useHome(){
         form,
         isCreateLinkPending,
         isDeleteLinkPending,
+        isExportLinkPending,
         handleSubmit,
         handleDeleteLink,
         handleCopyLink,
+        handleExportLinks,
     }
 }
