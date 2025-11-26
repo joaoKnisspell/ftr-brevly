@@ -4,14 +4,28 @@ type Row = Record<string, any>;
 type Rows = Row[];
 
 export function generateCsv(rows: Rows) {
-  const csv = stringify(rows, {
+  function formatDateBR(dateString: string) {
+    const d = new Date(dateString);
+  
+    const date = d.toLocaleDateString("pt-BR");        
+    const time = d.toLocaleTimeString("pt-BR");        
+  
+    return `${date} ${time}`;
+  }
+  
+  const formattedRows = rows.map(row => ({
+    ...row,
+    createdAt: formatDateBR(row.createdAt)
+  }));
+
+  const csv = stringify(formattedRows, {
     header: true,
     delimiter: ";",
     columns: [
       { key: "id", header: "ID" },
       { key: "slug", header: "Slug" },
       { key: "url", header: "URL Original" },
-      { key: "clicks", header: "Cliques" },
+      { key: "accesses", header: "Cliques" },
       { key: "createdAt", header: "Criado Em" }
     ]
   });
