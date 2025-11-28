@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "react-toastify"
 import type { AxiosError } from "axios"
-import { v4 as uuidv4 } from "uuid";
 
 const newLinkSchema = z.object({
     url: z.url("Informe uma url válida."),

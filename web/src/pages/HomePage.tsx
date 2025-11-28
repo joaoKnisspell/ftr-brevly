@@ -35,6 +35,7 @@ export default function HomePage() {
     handleExportLinks,
   } = useHome()
 
+
   return (
     <div className="h-screen flex flex-col mx-auto max-w-[980px] w-full gap-6 py-8 px-4 lg:items-start lg:px-0 lg:gap-8 lg:pt-[88px]">
       <header className="shrink-0">
@@ -95,7 +96,7 @@ export default function HomePage() {
             </Button>
           </CardHeader>
 
-          {data?.length === 0 && (
+          {data?.length === 0 || !data && (
             <div className="pt-4 flex flex-col gap-3 items-center">
               {isFetching ? (
                 <Loader className="animate-spin size-6 text-gray-400" />
